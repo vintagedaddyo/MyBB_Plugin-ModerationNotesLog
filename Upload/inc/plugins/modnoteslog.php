@@ -3,13 +3,13 @@
  * MyBB: Moderator Log Notes
  *
  * File: modnoteslog.php
- * 
+ *
  * Authors: Edson Ordaz, Vintagedaddyo
  *
  * MyBB Version: 1.8
  *
  * Plugin Version: 1.1
- * 
+ *
  */
 
 if(!defined("IN_MYBB"))
@@ -30,9 +30,9 @@ function modnoteslog_info()
    global $lang;
 
     $lang->load("modnoteslog");
-    
+
     $lang->modnoteslog_Desc = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="float:right;">' .
-        '<input type="hidden" name="cmd" value="_s-xclick">' . 
+        '<input type="hidden" name="cmd" value="_s-xclick">' .
         '<input type="hidden" name="hosted_button_id" value="AZE6ZNZPBPVUL">' .
         '<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">' .
         '<img alt="" border="0" src="https://www.paypalobjects.com/pl_PL/i/scr/pixel.gif" width="1" height="1">' .
@@ -130,7 +130,7 @@ function modnoteslog_activate()
 		"version"	=> 1.0,
 		"dateline"	=> time(),
 	);
-	
+
 	$modnotes = array(
 		"title"		=> 'modnotes',
 		"template"	=> $db->escape_string('<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
@@ -148,7 +148,7 @@ function modnoteslog_activate()
 		"version"	=> 1.0,
 		"dateline"	=> time(),
 	);
-	
+
 	$db->insert_query("templates", $modnotes);
 	$db->insert_query("templates", $modnotes_notes);
 	$db->query("DELETE FROM ".TABLE_PREFIX."datacache WHERE title='modnotes'");
@@ -175,22 +175,22 @@ class ModNotesLog {
 	* Log Notes
 	*
 	*/
-	
+
 	private static $lognotes;
-	
+
 	/*
 	* Verify Class
 	* @access protected
 	*
 	*/
-	
+
 	public $verify;
-	
+
 	/*
 	* Return Class LogNotes
 	*
 	*/
-	
+
 	public static function LogNotes()
 	{
 		if(!is_object($lognotes))
@@ -200,7 +200,7 @@ class ModNotesLog {
 
 		return $lognotes;
 	}
-	
+
 	/**
 	 * Construct
 	 *
@@ -224,23 +224,23 @@ class ModNotesLog {
 
 		$this->verify->verify_note($note);
 
-		$update = array( 
+		$update = array(
 			"uid"	=> $mybb->user['uid'],
 			"text"	=> $note,
 			"date" 	=> TIME_NOW
-		); 
+		);
 
 		$nid = $db->insert_query("modnotes", $update);
 		$nlid = $db->insert_query("modnoteslog", $update);
 
 		redirect("modcp.php", $lang->redirect_modnotes);
 	}
-	
+
 	/*
 	* delete Note
 	*
 	*/
-	
+
 	public function do_deletenote()
 	{
 		global $db, $mybb, $lang;
@@ -250,7 +250,7 @@ class ModNotesLog {
 			redirect("modcp.php",$lang->redirect_modnotes);
 		}
 	}
-	
+
 	/*
 	* Table Notes
 	*
@@ -262,12 +262,12 @@ class ModNotesLog {
 		eval("\$tablenotes = \"".$templates->get("modnotes_notes")."\";");
 		return $tablenotes;
 	}
-	
+
 	/*
 	* Modcp
 	*
 	*/
-	
+
 	public function logmodcp()
 	{
 		global $db, $mybb, $templates, $modnoteslog, $mnl, $theme, $lang;
@@ -311,6 +311,7 @@ class ModNotesLog {
 			$time = my_date($mybb->settings['timeformat'], $note['date']);
 			$style = alt_trow();
 			$avatar = (!empty($avatar)) ? $avatar : "images/default_avatar.png";
+			$note['text'] = htmlspecialchars_uni($note['text']);
 			$modnoteslog .= $this->modnoteslogtable($style,$avatar,$username,$date,$time,$note['nid'],$note['text']);
 		}
 
@@ -319,7 +320,7 @@ class ModNotesLog {
 		$pagination = multipage($quantity, (int)$perpage, (int)$page, $modcp_page);
 		eval("\$mnl = \"".$templates->get("modnotes")."\";");
 	}
-	
+
 	/*
 	* New Log
 	*
@@ -329,7 +330,7 @@ class ModNotesLog {
 	{
 		$this->Admin->load_Mod_Notes_Log();
 	}
-	
+
 	/*
 	* New Menu ->Logs Administration <-
 	*
@@ -357,12 +358,12 @@ class ModNotesLog_Verify {
 
 		redirect("modcp.php", $lang->modnoteslog_Redirect);
 	}
-	
+
 	/*
 	* Verify lenght note
 	*
 	*/
-	
+
 	public function verify_note($e)
 	{
 		global $mybb;
@@ -376,7 +377,7 @@ class ModNotesLog_Verify {
 			$this->verify_redirect();
 		}
 	}
-	
+
 	/*
 	* New Action menu
 	*
@@ -402,7 +403,7 @@ class ModNotesLog_Admin {
 	*/
 
 	private static $lognotes_admin;
-	
+
 	/*
 	* Return Class ModNotesLog_Admin
 	*
@@ -417,7 +418,7 @@ class ModNotesLog_Admin {
 
 		return $lognotes_admin;
 	}
-	
+
 	/*
 	* Load ModNotesLog admin
 	*
@@ -451,7 +452,7 @@ class ModNotesLog_Admin {
 		$this->admin_load_tables();
 		$page->output_footer();
 	}
-	
+
 	/*
 	* Profile Url
 	*
@@ -462,12 +463,12 @@ class ModNotesLog_Admin {
 
 		return "<a href=\"{$mybb->settings['bburl']}/".get_profile_link($uid)."\">{$username}</a>";
 	}
-	
+
 	/*
 	* Load Username - username format
 	*
 	*/
-	
+
 	public function username_load($u)
 	{
 		global $db, $cache, $groupscache;
@@ -493,7 +494,7 @@ class ModNotesLog_Admin {
 
 		return $username;
 	}
-	
+
 	/*
 	* Load admin handler Nav
 	*
@@ -513,12 +514,12 @@ class ModNotesLog_Admin {
 
 		$nav[$key] = array('id' => $lang->modnoteslog_nav_id, 'title' => $lang->modnoteslog_nav_title, 'link' => "index.php?module=tools-modnoteslog");
 	}
-	
+
 	/*
 	* Load Time AND date
 	*
 	*/
-	
+
 	public function date_time($dt)
 	{
 		global $mybb;
@@ -528,12 +529,12 @@ class ModNotesLog_Admin {
 
 		return $date.",".$time;
 	}
-	
+
 	/*
 	* Tabs LOgs notes
 	*
 	*/
-	
+
 	public function tabsload()
 	{
 		global $page, $lang;
@@ -558,7 +559,7 @@ class ModNotesLog_Admin {
 
 		$page->output_nav_tabs($tabs,"lognotes");
 	}
-	
+
 	/*
 	* Empty Notes moderation
 	*
@@ -575,7 +576,7 @@ class ModNotesLog_Admin {
 		flash_message($lang->modnoteslog_flash_1, 'success');
 		admin_redirect("index.php?module=tools-modnoteslog");
 	}
-	
+
 	/*
 	* Empty Log Notes administration
 	*
@@ -592,12 +593,12 @@ class ModNotesLog_Admin {
 		flash_message($lang->modnoteslog_flash_2, 'success');
 		admin_redirect("index.php?module=tools-modnoteslog");
 	}
-	
+
 	/*
 	* Table Admin Log
 	*
 	*/
-	
+
 	public function admin_load_tables()
 	{
 		global $db, $mybb, $lang;
@@ -640,6 +641,7 @@ class ModNotesLog_Admin {
 		while($note = $db->fetch_array($query))
 		{
 				$table->construct_cell($this->username_load($note['uid']));
+				$note['text'] = htmlspecialchars_uni($note['text']);
 				$table->construct_cell($note['text']);
 				$table->construct_cell($this->date_time($note['date']), array("class" => "align_center"));
 				$table->construct_row();
