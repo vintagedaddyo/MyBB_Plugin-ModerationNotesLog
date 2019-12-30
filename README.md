@@ -3,19 +3,8 @@
 Moderator Log Notes
 Advanced Mode on notes moderator.
 
-Version: 1.0
-Author: Edson Ordaz
-Submitted: 5th June 2011
-Last Updated: 15th June 2011
-Plugin Name: Moderator Log Notes
-Plugin Author: Edson Ordaz
-Plugin Website: http://www.mybb-es.com
-Plugin Version: 1.0
-Plugin Mybb Compatibility: 1.6x
-Plugin Language: English
-Plugin File Edits: no
-Plugin File Uploads: 1
-Plugin Description: Advanced Mode on notes moderator..
+
+Plugin Description:
 
 
 This plugin is an advanced way of notes moderator.
@@ -27,6 +16,21 @@ To delete all notes must be done from administration panel as to remove the log 
 
 * Updated to version 1.1 for MyBB 1.8.x usage by: Vintagedaddyo
 
+Version: 1.1
+Author: Edson Ordaz & Vintagedaddyo
+Submitted: 14th April 2018
+Plugin Compatibility: 1.8.x
+
+Current version 1.1 localization support:
+
+- english
+- englishgb
+- espanol 
+- french 
+- italiano
+
 NOTE: * in MyBB 1.8.15 there is a minor bug that causes the default moderation log to load as a blank white page due to a missing semi-colon ~/admin/modules/tools/modlog.php --> Line 284
 
 Added corrected file in build # 2
+
+Now after 1.8.15 the file is no longer needed and is now removed
